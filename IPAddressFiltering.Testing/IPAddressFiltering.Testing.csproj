@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Common.cs" />
+    <Compile Include="MultipleIPAddressFiltering.cs" />
     <Compile Include="SingleIPAddressFiltering.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

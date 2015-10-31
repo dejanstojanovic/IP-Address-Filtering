@@ -84,6 +84,7 @@ namespace IPAddressFiltering
                 {
                     return false;
                 }
+
             }
             else
             {
@@ -97,8 +98,11 @@ namespace IPAddressFiltering
                 {
                     return false;
                 }
+
             }
+
             return true;
+
         }
 
 
