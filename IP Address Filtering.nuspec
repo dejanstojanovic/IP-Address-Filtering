@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>IPAddressFiltering</id>
+        <version>1.0.0</version>
+        <title>IP Address Filtering</title>
+        <authors>Dejan Stojanovic</authors>
+        <licenseUrl>https://github.com/dejanstojanovic/IP-Address-Filtering/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/dejanstojanovic/IP-Address-Filtering</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Allows easy IP address access iltering by simply adding an attribute to MVC or Web API controller or controller action.
+It supports:
+- single IP address filtering
+- multiple IP address filtering
+- multiple IP address range filtering</description>
+        <summary>Lightweight C# ASP.NET MVC and Web API IP address filtering library</summary>
+        <copyright>Dejan Stojanovic 2015</copyright>
+        <language>en-US</language>
+        <tags>IPAddress, IP Filtering</tags>
+        <frameworkAssemblies>
+            <frameworkAssembly assemblyName="System.Web" targetFramework="" />
+        </frameworkAssemblies>
+    </metadata>
+    <files />
+</package>

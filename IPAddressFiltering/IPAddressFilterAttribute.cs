@@ -9,15 +9,15 @@ using System.Web.Http;
 namespace IPAddressFiltering
 
 {
-
-
-
     public class IPAddressFilterAttribute : AuthorizeAttribute
     {
+        #region Fields
         private IEnumerable<IPAddress> ipAddresses;
         private IEnumerable<IPAddressRange> ipAddressRanges;
         private IPAddressFilteringAction filteringType;
+        #endregion
 
+        #region Properties
         public IEnumerable<IPAddress> IPAddresses
         {
             get
@@ -33,7 +33,9 @@ namespace IPAddressFiltering
                 return this.ipAddressRanges;
             }
         }
+        #endregion
 
+        #region Constructors
         public IPAddressFilterAttribute(string ipAddress, IPAddressFilteringAction filteringType)
            : this(new IPAddress[] { IPAddress.Parse(ipAddress) }, filteringType)
         {
@@ -58,17 +60,22 @@ namespace IPAddressFiltering
             this.filteringType = filteringType;
         }
 
-
+        #endregion
 
         protected override bool IsAuthorized(HttpActionContext context)
         {
             string ipAddressString = ((HttpContextWrapper)context.Request.Properties["MS_HttpContext"]).Request.UserHostName;
+            return IsIPAddressAllowed(ipAddressString);
+        }
+
+        private bool IsIPAddressAllowed(string ipAddressString)
+        {
             IPAddress ipAddress = IPAddress.Parse(ipAddressString);
 
             if (this.filteringType == IPAddressFilteringAction.Allow)
             {
                 if (this.ipAddresses != null && this.ipAddresses.Any() &&
-                    !IsAddressInList(ipAddressString.Trim()))
+                    !IsIPAddressInList(ipAddressString.Trim()))
                 {
                     return false;
                 }
@@ -81,7 +88,7 @@ namespace IPAddressFiltering
             else
             {
                 if (this.ipAddresses != null && this.ipAddresses.Any() &&
-                   IsAddressInList(ipAddressString.Trim()))
+                   IsIPAddressInList(ipAddressString.Trim()))
                 {
                     return false;
                 }
@@ -91,18 +98,16 @@ namespace IPAddressFiltering
                     return false;
                 }
             }
-
             return true;
         }
 
 
-
-        private bool IsAddressInList(string IpAddress)
+        private bool IsIPAddressInList(string ipAddress)
         {
-            if (!string.IsNullOrWhiteSpace(IpAddress))
+            if (!string.IsNullOrWhiteSpace(ipAddress))
             {
                 IEnumerable<string> addresses = this.ipAddresses.Select(a => a.ToString());
-                return addresses.Where(a => a.Trim().Equals(IpAddress, StringComparison.InvariantCultureIgnoreCase)).Any();
+                return addresses.Where(a => a.Trim().Equals(ipAddress, StringComparison.InvariantCultureIgnoreCase)).Any();
             }
             return false;
         }
