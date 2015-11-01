@@ -2,3 +2,9 @@
 
 # IP-Address-Filtering
 Lightweight C# ASP.NET MVC and Web API IP address filtering library
+
+The library allows validating IP address against:
+* Single IP address
+* List of multiple IP addresses
+* Single IP address range
+* Multiple IP address ranges
