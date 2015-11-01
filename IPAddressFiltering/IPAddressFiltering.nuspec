@@ -12,14 +12,14 @@
 It supports:
 - single IP address filtering
 - multiple IP address filtering
+- single IP address range filtering
 - multiple IP address range filtering</description>
         <summary>Lightweight C# ASP.NET MVC and Web API IP address filtering library</summary>
         <copyright>Dejan Stojanovic 2015</copyright>
         <language>en-US</language>
         <tags>IPAddress, IP Filtering</tags>
-        <frameworkAssemblies>
-            <frameworkAssembly assemblyName="System.Web" targetFramework="" />
-        </frameworkAssemblies>
     </metadata>
-    <files />
+    <files>
+        <file src="bin\Release\IPAddressFiltering.dll" target="IPAddressFiltering.dll" />
+    </files>
 </package>
