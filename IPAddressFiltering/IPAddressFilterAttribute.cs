@@ -60,6 +60,24 @@ namespace IPAddressFiltering
             this.filteringType = filteringType;
         }
 
+        public IPAddressFilterAttribute(string ipAddressRangeStart, string ipAddressRangeEnd, IPAddressFilteringAction filteringType)
+            : this(new IPAddressRange[] { new IPAddressRange(ipAddressRangeStart, ipAddressRangeEnd) }, filteringType)
+        {
+
+        }
+
+        public IPAddressFilterAttribute(IPAddressRange ipAddressRange, IPAddressFilteringAction filteringType)
+            :this(new IPAddressRange[] { ipAddressRange }, filteringType)
+        {
+
+        }
+
+        public IPAddressFilterAttribute(IEnumerable<IPAddressRange> ipAddressRanges, IPAddressFilteringAction filteringType)
+        {
+            this.ipAddressRanges = ipAddressRanges;
+            this.filteringType = filteringType;
+        }
+
         #endregion
 
         protected override bool IsAuthorized(HttpActionContext context)
@@ -80,7 +98,7 @@ namespace IPAddressFiltering
                     return false;
                 }
                 else if (this.ipAddressRanges != null && this.ipAddressRanges.Any() &&
-                    !this.ipAddressRanges.Select(r => ipAddress.IsInRange(r.StartIPAddress, r.EndIPAddress)).Any())
+                    !this.ipAddressRanges.Where(r => ipAddress.IsInRange(r.StartIPAddress, r.EndIPAddress)).Any())
                 {
                     return false;
                 }
@@ -94,7 +112,7 @@ namespace IPAddressFiltering
                     return false;
                 }
                 else if (this.ipAddressRanges != null && this.ipAddressRanges.Any() &&
-                    this.ipAddressRanges.Select(r => ipAddress.IsInRange(r.StartIPAddress, r.EndIPAddress)).Any())
+                    this.ipAddressRanges.Where(r => ipAddress.IsInRange(r.StartIPAddress, r.EndIPAddress)).Any())
                 {
                     return false;
                 }
@@ -104,7 +122,6 @@ namespace IPAddressFiltering
             return true;
 
         }
-
 
         private bool IsIPAddressInList(string ipAddress)
         {

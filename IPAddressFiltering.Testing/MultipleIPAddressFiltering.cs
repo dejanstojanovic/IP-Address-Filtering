@@ -19,7 +19,7 @@ namespace IPAddressFiltering.Testing
         [TestMethod]
         public void TestMultipleIPRestrictNoMatch()
         {
-            Assert.AreEqual<bool>(true, CheckIPAddress("94.201.252.26", IPAddressFilteringAction.Restrict));
+            Assert.AreEqual<bool>(true, CheckIPAddress("94.201.252.100", IPAddressFilteringAction.Restrict));
         }
 
         [TestMethod]
@@ -31,7 +31,7 @@ namespace IPAddressFiltering.Testing
         [TestMethod]
         public void TestMultipleIPAllowNoMatch()
         {
-            Assert.AreEqual<bool>(false, CheckIPAddress("94.201.252.26", IPAddressFilteringAction.Allow));
+            Assert.AreEqual<bool>(false, CheckIPAddress("94.201.252.100", IPAddressFilteringAction.Allow));
         }
 
         private bool CheckIPAddress(string requestIP, IPAddressFilteringAction action)

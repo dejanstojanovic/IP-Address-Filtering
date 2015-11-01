@@ -5,18 +5,12 @@ namespace IPAddressFiltering
 {
     public static class IPAddressExtensions
     {
-        /// <summary>
-        /// Check if the IP address is in a range if IP addresses
-        /// </summary>
-        /// <param name="address"></param>
-        /// <param name="lower"></param>
-        /// <param name="upper"></param>
-        /// <returns></returns>
-        public static bool IsInRange(this IPAddress address, IPAddress lower, IPAddress upper)
+        public static bool IsInRange(this IPAddress address, IPAddress start, IPAddress end)
         {
-            AddressFamily addressFamily = lower.AddressFamily;
-            byte[] lowerBytes = lower.GetAddressBytes();
-            byte[] upperBytes = upper.GetAddressBytes();
+
+            AddressFamily addressFamily = start.AddressFamily;
+            byte[] lowerBytes = start.GetAddressBytes();
+            byte[] upperBytes = end.GetAddressBytes();
 
             if (address.AddressFamily != addressFamily)
             {

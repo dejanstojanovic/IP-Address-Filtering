@@ -4,9 +4,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace IPAddressFiltering.Testing
 {
     [TestClass]
-    public class SingleIPAddressFiltering
+    public class SingleIPAddressRangeFiltering
     {
-
         [TestMethod]
         public void TestSingleIPRestrictMatch()
         {
@@ -34,10 +33,9 @@ namespace IPAddressFiltering.Testing
         private bool CheckIPAddress(string requestIP, IPAddressFilteringAction action)
         {
 
-            IPAddressFilterAttribute attribute = new IPAddressFilterAttribute("94.201.252.25", action);
+            IPAddressFilterAttribute attribute = new IPAddressFilterAttribute(new IPAddressRange("94.201.252.5", "94.201.252.90"), action);
             return Common.IsIPAddressAllowed(attribute, requestIP);
 
         }
-
     }
 }
