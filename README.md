@@ -8,3 +8,7 @@ The library allows validating IP address against:
 * List of multiple IP addresses
 * Single IP address range
 * Multiple IP address ranges
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dejanstojanovic/ip-address-filtering/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
