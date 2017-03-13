@@ -24,6 +24,3 @@ The library allows validating IP address against:
         }
     }
 ```
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/dejanstojanovic/ip-address-filtering/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
