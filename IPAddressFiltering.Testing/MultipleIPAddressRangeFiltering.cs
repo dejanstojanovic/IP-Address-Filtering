@@ -34,11 +34,11 @@ namespace IPAddressFiltering.Testing
         {
 
             IPAddressFilterAttribute attribute = new IPAddressFilterAttribute(
-                new IPAddressRange[] {
-                new IPAddressRange("94.123.252.5", "94.130.252.100"),
-                new IPAddressRange("94.201.252.5", "94.201.252.90"),
-                new IPAddressRange("94.201.242.1", "94.201.242.101"),
-                new IPAddressRange("34.201.232.5", "54.201.242.200"),
+                new AddressRange[] {
+                new AddressRange("94.123.252.5", "94.130.252.100"),
+                new AddressRange("94.201.252.5", "94.201.252.90"),
+                new AddressRange("94.201.242.1", "94.201.242.101"),
+                new AddressRange("34.201.232.5", "54.201.242.200"),
                 }, action);
             return Common.IsIPAddressAllowed(attribute, requestIP);
 

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPAddressFiltering", "IPAddressFiltering\IPAddressFiltering.csproj", "{994B7858-713F-4CDA-91E7-1F4D0B49AB03}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPAddressFiltering.Testing", "IPAddressFiltering.Testing\IPAddressFiltering.Testing.csproj", "{594F8490-7F39-44DD-AFF8-ED7DD36D974A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPAddressFiltering.Demo", "IPAddressFiltering.Demo\IPAddressFiltering.Demo.csproj", "{B5298B78-A1B3-4AF4-B6ED-4CE2A9E1FCAB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,8 +23,15 @@ Global
 		{594F8490-7F39-44DD-AFF8-ED7DD36D974A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{594F8490-7F39-44DD-AFF8-ED7DD36D974A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{594F8490-7F39-44DD-AFF8-ED7DD36D974A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5298B78-A1B3-4AF4-B6ED-4CE2A9E1FCAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5298B78-A1B3-4AF4-B6ED-4CE2A9E1FCAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5298B78-A1B3-4AF4-B6ED-4CE2A9E1FCAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5298B78-A1B3-4AF4-B6ED-4CE2A9E1FCAB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3D745D11-039B-458E-BA04-7D1BF6D93BF1}
 	EndGlobalSection
 EndGlobal

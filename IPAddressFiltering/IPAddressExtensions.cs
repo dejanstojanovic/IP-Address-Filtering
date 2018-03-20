@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
@@ -7,7 +8,7 @@ namespace IPAddressFiltering
 {
     public static class IPAddressExtensions
     {
-        public static bool IsInRange(this IPAddress address, IPAddress start, IPAddress end)
+        public static bool BelongsToRange(this IPAddress address, IPAddress start, IPAddress end)
         {
 
             AddressFamily addressFamily = start.AddressFamily;
@@ -40,8 +41,8 @@ namespace IPAddressFiltering
         }
 
 
-        // https://social.msdn.microsoft.com/Forums/en-US/29313991-8b16-4c53-8b5d-d625c3a861e1/ip-address-validation-using-cidr?forum=netfxnetcom
-        public static bool IsInCIDR(this IPAddress address, IPAddress matchAddress, int cidr)
+        //https://social.msdn.microsoft.com/Forums/en-US/29313991-8b16-4c53-8b5d-d625c3a861e1/ip-address-validation-using-cidr?forum=netfxnetcom
+        public static bool BelongsToSubnet(this IPAddress address, IPAddress matchAddress, int cidr)
         {
             int baseAddress = BitConverter.ToInt32(matchAddress.GetAddressBytes(), 0);
             int addressInt = BitConverter.ToInt32(address.GetAddressBytes(), 0);
@@ -49,9 +50,9 @@ namespace IPAddressFiltering
             return ((baseAddress & mask) == (addressInt & mask));
         }
 
-        public static bool IsInList(this IPAddress address, IEnumerable<IPAddress> addresses)
+        public static bool BelongsToList(this IPAddress address, IEnumerable<IPAddress> addresses)
         {
-            throw new NotImplementedException();
+            return addresses.Contains(address);
         }
 
 

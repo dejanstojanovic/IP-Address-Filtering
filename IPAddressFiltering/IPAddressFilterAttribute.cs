@@ -5,6 +5,9 @@ using System.Net;
 using System.Web.Http.Controllers;
 using System.Web;
 using System.Web.Http;
+using System.Net.Sockets;
+using IPAddressFiltering.Configuration;
+using IPAddressFiltering.Models;
 
 namespace IPAddressFiltering
 
@@ -12,126 +15,75 @@ namespace IPAddressFiltering
     public class IPAddressFilterAttribute : AuthorizeAttribute
     {
         #region Fields
+
         private IEnumerable<IPAddress> ipAddresses;
-        private IEnumerable<IPAddressRange> ipAddressRanges;
-        private IPAddressFilteringAction filteringType;
-        #endregion
+        private IEnumerable<AddressRange> ipAddressRanges;
+        private IEnumerable<AddressMask> ipAddressMasks;
 
-        #region Properties
-        public IEnumerable<IPAddress> IPAddresses
-        {
-            get
-            {
-                return this.ipAddresses;
-            }
-        }
-
-        public IEnumerable<IPAddressRange> IPAddressRanges
-        {
-            get
-            {
-                return this.ipAddressRanges;
-            }
-        }
         #endregion
 
         #region Constructors
-        public IPAddressFilterAttribute(string ipAddress, IPAddressFilteringAction filteringType)
-           : this(new IPAddress[] { IPAddress.Parse(ipAddress) }, filteringType)
+        public IPAddressFilterAttribute(String configurationKey, IConfiguration configuration)
         {
-
-        }
-
-        public IPAddressFilterAttribute(IPAddress ipAddress, IPAddressFilteringAction filteringType)
-            : this(new IPAddress[] { ipAddress }, filteringType)
-        {
-
-        }
-
-        public IPAddressFilterAttribute(IEnumerable<string> ipAddresses, IPAddressFilteringAction filteringType)
-            : this(ipAddresses.Select(a => IPAddress.Parse(a)), filteringType)
-        {
-
-        }
-
-        public IPAddressFilterAttribute(IEnumerable<IPAddress> ipAddresses, IPAddressFilteringAction filteringType)
-        {
-            this.ipAddresses = ipAddresses;
-            this.filteringType = filteringType;
-        }
-
-        public IPAddressFilterAttribute(string ipAddressRangeStart, string ipAddressRangeEnd, IPAddressFilteringAction filteringType)
-            : this(new IPAddressRange[] { new IPAddressRange(ipAddressRangeStart, ipAddressRangeEnd) }, filteringType)
-        {
-
-        }
-
-        public IPAddressFilterAttribute(IPAddressRange ipAddressRange, IPAddressFilteringAction filteringType)
-            :this(new IPAddressRange[] { ipAddressRange }, filteringType)
-        {
-
-        }
-
-        public IPAddressFilterAttribute(IEnumerable<IPAddressRange> ipAddressRanges, IPAddressFilteringAction filteringType)
-        {
-            this.ipAddressRanges = ipAddressRanges;
-            this.filteringType = filteringType;
+            String config = configuration.GetConfiguration(configurationKey);
         }
 
         #endregion
 
         protected override bool IsAuthorized(HttpActionContext context)
         {
-            string ipAddressString = ((HttpContextWrapper)context.Request.Properties["MS_HttpContext"]).Request.UserHostName;
-            return IsIPAddressAllowed(ipAddressString);
+            throw new NotImplementedException();
         }
 
-        private bool IsIPAddressAllowed(string ipAddressString)
+
+        #region Methods
+        public static bool BelongsToRange(IPAddress address, IPAddress start, IPAddress end)
         {
-            IPAddress ipAddress = IPAddress.Parse(ipAddressString);
 
-            if (this.filteringType == IPAddressFilteringAction.Allow)
+            AddressFamily addressFamily = start.AddressFamily;
+            byte[] lowerBytes = start.GetAddressBytes();
+            byte[] upperBytes = end.GetAddressBytes();
+
+            if (address.AddressFamily != addressFamily)
             {
-                if (this.ipAddresses != null && this.ipAddresses.Any() &&
-                    !IsIPAddressInList(ipAddressString.Trim()))
-                {
-                    return false;
-                }
-                else if (this.ipAddressRanges != null && this.ipAddressRanges.Any() &&
-                    !this.ipAddressRanges.Where(r => ipAddress.IsInRange(r.StartIPAddress, r.EndIPAddress)).Any())
-                {
-                    return false;
-                }
-
+                return false;
             }
-            else
+
+            byte[] addressBytes = address.GetAddressBytes();
+
+            bool lowerBoundary = true, upperBoundary = true;
+
+            for (int i = 0; i < lowerBytes.Length &&
+                (lowerBoundary || upperBoundary); i++)
             {
-                if (this.ipAddresses != null && this.ipAddresses.Any() &&
-                   IsIPAddressInList(ipAddressString.Trim()))
-                {
-                    return false;
-                }
-                else if (this.ipAddressRanges != null && this.ipAddressRanges.Any() &&
-                    this.ipAddressRanges.Where(r => ipAddress.IsInRange(r.StartIPAddress, r.EndIPAddress)).Any())
+                if ((lowerBoundary && addressBytes[i] < lowerBytes[i]) ||
+                    (upperBoundary && addressBytes[i] > upperBytes[i]))
                 {
                     return false;
                 }
 
+                lowerBoundary &= (addressBytes[i] == lowerBytes[i]);
+                upperBoundary &= (addressBytes[i] == upperBytes[i]);
             }
 
             return true;
-
         }
 
-        private bool IsIPAddressInList(string ipAddress)
+
+        //https://social.msdn.microsoft.com/Forums/en-US/29313991-8b16-4c53-8b5d-d625c3a861e1/ip-address-validation-using-cidr?forum=netfxnetcom
+        public static bool BelongsToSubnet(IPAddress address, IPAddress matchAddress, int cidr)
         {
-            if (!string.IsNullOrWhiteSpace(ipAddress))
-            {
-                IEnumerable<string> addresses = this.ipAddresses.Select(a => a.ToString());
-                return addresses.Where(a => a.Trim().Equals(ipAddress, StringComparison.InvariantCultureIgnoreCase)).Any();
-            }
-            return false;
+            int baseAddress = BitConverter.ToInt32(matchAddress.GetAddressBytes(), 0);
+            int addressInt = BitConverter.ToInt32(address.GetAddressBytes(), 0);
+            int mask = IPAddress.HostToNetworkOrder(-1 << (32 - cidr));
+            return ((baseAddress & mask) == (addressInt & mask));
         }
+
+        public static bool BelongsToList(IPAddress address, IEnumerable<IPAddress> addresses)
+        {
+            return addresses.Contains(address);
+        }
+        #endregion
 
     }
 }
