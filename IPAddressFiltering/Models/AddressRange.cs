@@ -2,7 +2,7 @@
 
 namespace IPAddressFiltering.Models
 {
-    public class AddressRange
+    internal class AddressRange
     {
         private IPAddress startIPAddress;
         private IPAddress endIPAddress;

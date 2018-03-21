@@ -7,10 +7,27 @@ using System.Threading.Tasks;
 
 namespace IPAddressFiltering.Models
 {
-    public class AddressMask
+    internal class AddressMask
     {
         private IPAddress ipAddress;
         private int cidr;
+
+        public IPAddress Address
+        {
+            get
+            {
+                return this.ipAddress;
+            }
+        }
+
+        public int CIDR
+        {
+            get
+            {
+                return this.cidr;
+
+            }
+        }
 
 
         public AddressMask(IPAddress ipAddress, int cidr)
