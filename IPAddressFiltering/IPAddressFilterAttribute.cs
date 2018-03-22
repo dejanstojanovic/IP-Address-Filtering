@@ -12,6 +12,7 @@ using IPAddressFiltering.Models;
 namespace IPAddressFiltering
 
 {
+    [AttributeUsage(AttributeTargets.All)]
     public sealed class IPAddressFilterAttribute : AuthorizeAttribute
     {
         #region Fields
