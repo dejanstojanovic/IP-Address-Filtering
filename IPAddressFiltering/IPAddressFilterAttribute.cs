@@ -12,7 +12,7 @@ using IPAddressFiltering.Models;
 namespace IPAddressFiltering
 
 {
-    public class IPAddressFilterAttribute : AuthorizeAttribute
+    public sealed class IPAddressFilterAttribute : AuthorizeAttribute
     {
         #region Fields
 
@@ -37,6 +37,12 @@ namespace IPAddressFiltering
 
         #endregion
 
+        protected override void HandleUnauthorizedRequest(HttpActionContext actionContext)
+        {
+            base.HandleUnauthorizedRequest(actionContext);
+        }
+
+        
         protected override bool IsAuthorized(HttpActionContext context)
         {
             IPAddress ipAddress = IPAddress.Parse(((HttpContextWrapper)context.Request.Properties["MS_HttpContext"]).Request.UserHostName);

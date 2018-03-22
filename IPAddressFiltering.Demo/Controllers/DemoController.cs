@@ -7,9 +7,10 @@ using System.Web.Http;
 
 namespace IPAddressFiltering.Demo.Controllers
 {
+
+    [IPAddressFilter("ipFIlter")]
     public class DemoController : ApiController
     {
-        [IPAddressFilter("ipFIlter")]
         public HttpResponseMessage Get()
         {
            return Request.CreateResponse(HttpStatusCode.OK, "Hello");
